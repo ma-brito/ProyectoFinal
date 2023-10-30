@@ -1,4 +1,6 @@
 import logo from './logo.svg';
+import MovieList from './components/MovieList';
+import React from 'react';
 import './App.css';
 import { useState } from 'react';
 function App() {
@@ -30,10 +32,10 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MovieList movies={movies}
+        <MovieList movies={movies} />
       </section>
     </React.Fragment>
   );
-}
+  }
 
 export default App;
