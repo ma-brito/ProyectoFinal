@@ -11,10 +11,10 @@ class Usuario(db.Model):
     email = Column(String(500), unique=True)
     password = Column(String(64))
 
-    def __init__(self, nombre, email, passwd):
+    def __init__(self, nombre, email, password):
         self.nombre = nombre
         self.email = email
-        self.password = sha256(cipher(passwd)).hexdigest()
+        self.password = sha256(cipher(password)).hexdigest()
 
     def __str__(self):
         return f'idUsuario: {self.idUsuario}\nnombre: {self.nombre}\ncorreo: {self.email}'
