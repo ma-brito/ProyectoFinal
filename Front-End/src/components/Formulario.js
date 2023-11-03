@@ -40,24 +40,33 @@ export function Formulario({ setUser }) {
 
   return (
     <section>
-      <h1>Login</h1>
+    <h1>Login</h1>
 
-      <form className="formulario" onSubmit={handleSubmit}>
+    <form className="formulario" onSubmit={handleSubmit}>
+      <div className="form-group">
         <label htmlFor="usuario">Usuario:</label>
         <input
           type="text"
           value={nombre}
           onChange={(event) => setNombre(event.target.value)}
         />
+      </div>
+      <div className="form-group">
         <label htmlFor="contrasena">Contraseña:</label>
         <input
           type="password"
           value={contraseña}
           onChange={(event) => setContraseña(event.target.value)}
         />
-        <button>Iniciar sesion</button>
-      </form>
-       <p>{error}</p>
-    </section>
-  );
+      </div>
+      <button>Iniciar sesión</button>
+    </form>
+    <p>{error}</p>
+  </section>
+);
 }
+
+
+
+
+
