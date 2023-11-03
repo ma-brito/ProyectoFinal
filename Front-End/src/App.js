@@ -1,41 +1,45 @@
-import logo from './logo.svg';
-import MovieList from './components/MovieList';
-import React from 'react';
+import {Formulario} from "./components/Formulario";
+import {Home} from "./components/Home";
+import {useState} from "react";
 import './App.css';
-import { useState } from 'react';
-function App() {
+import Logo from "../src/images/logo.jpeg";
 
-  const [movies, setMovies] = useState([]);
 
-  async function fetchMoviesHandler () {
-    const response = await fetch('http://localhost:5000/', {
-      method: 'GET',
-      body: {"nombre":"The man in the arena (Tom Brady story)"},
-      headers: {
-        'Conten-Type':'application/json'
-      }
-    });
+function  App(){
 
-    const data = await response.json();
-    const loadedMovies = [];
-    for (const movie in data) {
-      loadedMovies.push({
-        genero: data[movie].genero
-      });
-    }
-    setMovies(loadedMovies);
-  }
+  const [user, setUser]= useState([])
 
-  return (
-    <React.Fragment>
-      <section>
-        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
-      </section>
-      <section>
-        <MovieList movies={movies} />
-      </section>
-    </React.Fragment>
+  return(
+
+  <body>
+
+
+      <div className="container">
+          <header className='contenedor-logo'>
+              <img
+
+                  src={Logo}
+                  alt='Logo'
+              />
+
+
+
+          </header>
+        <div className='form-group' >
+            {
+
+                !user.length > 0
+
+                    ?<Formulario setUser={setUser}></Formulario>
+                    :<Home user={user} setUser={setUser}></Home>
+            }
+
+
+        </div>
+
+      </div>
+  </body>
   );
-  }
 
-export default App;
+}
+export default App
