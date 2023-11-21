@@ -2,73 +2,110 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export function Formulario({ setUser }) {
+  const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
   const [contraseña, setContraseña] = useState("");
-  const [permiso, setPermiso] = useState("");
   const [error, setError] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (nombre === "" || contraseña === "") {
-      setError(true);
+    if (email === "" || contraseña === "" || nombre === "") {
+      setError("Por favor, completa todos los campos.");
       return;
     }
-    setError(false);
+    setError("");
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
-        email: nombre, // Envía el nombre como el email
-        password: contraseña,
-        permiso : permiso,
-      });
+      let response;
+      if (isRegistering) {
+        // Lógica de registro
+        response = await axios.post("http://localhost:5000/registrar", {
+          email: email,
+          nombre: nombre,
+          password: contraseña,
+          permiso: 0, // Todos los usuarios registrados tendrán permiso 0
+        });
+      } else {
+        // Lógica de inicio de sesión
+        response = await axios.post("http://localhost:5000/login", {
+          email: email,
+          password: contraseña,
+          permiso: 0, // Puedes ajustar esto según la lógica de tu aplicación
+        });
+      }
 
-      if (response.status === 200) {
-        console.log("Usuario logueado");
-        setUser(nombre, permiso);
+      if (response && response.status === 200) {  // Verifica que response no sea undefined
+        console.log(isRegistering ? "Usuario registrado" : "Usuario logueado");
+        setUser(email, 0); // Asigna permiso 0 directamente
       }
     } catch (error) {
-      if (error.response.status === 401) {
-        console.log("Este correo no está registrado");
-        setError("Este correo no está registrado");
-      }else if (error.response.status === 402) {
-        console.log("Contraseña incorrecta");
-        setError("Contraseña incorrecta");
-      }else {
-        console.log("Error desconocido");
-        setError("Hubo un errror con el servidor. Lo sentimos, intenta más tarde");
+      if (error.response && error.response.status) {
+        if (error.response.status === 401) {
+          setError(isRegistering ? "Usuario no registrado" : "Correo o contraseña incorrectos");
+        } else if (error.response.status === 402) {
+          setError("Contraseña incorrecta");
+        } else {
+          setError("Ocurrió un error. Por favor, inténtalo de nuevo más tarde.");
+        }
+      } else {
+        setError("Ocurrió un error. Por favor, inténtalo de nuevo más tarde.");
       }
     }
-  }
+  };
+
+  const toggleForm = () => {
+    setIsRegistering(!isRegistering);
+    setError("");
+  };
 
   return (
     <section>
-    <h1>Login</h1>
+      <h1>{isRegistering ? "Registro" : "Inicio de Sesión"}</h1>
 
-    <form className="formulario" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="usuario">Usuario:</label>
-        <input
-          type="text"
-          value={nombre}
-          onChange={(event) => setNombre(event.target.value)}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="contrasena">Contraseña:</label>
-        <input
-          type="password"
-          value={contraseña}
-          onChange={(event) => setContraseña(event.target.value)}
-        />
-      </div>
-      <button>Iniciar sesión</button>
-    </form>
-    <p>{error}</p>
-  </section>
-);
+      <form className="formulario" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="text"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+
+        {isRegistering && (
+          <div className="form-group">
+            <label htmlFor="nombre">Nombre de Usuario:</label>
+            <input
+              type="text"
+              value={nombre}
+              onChange={(event) => setNombre(event.target.value)}
+            />
+          </div>
+        )}
+
+        <div className="form-group">
+          <label htmlFor="contrasena">Contraseña:</label>
+          <input
+            type="password"
+            value={contraseña}
+            onChange={(event) => setContraseña(event.target.value)}
+          />
+        </div>
+
+        <button type="submit">{isRegistering ? "Registrar" : "Iniciar Sesión"}</button>
+      </form>
+
+      <p>{error}</p>
+
+      <p>
+        {isRegistering
+          ? "¿Ya registrado? "
+          : "¿Aún no estás registrado? "}
+        <button type="button" onClick={toggleForm}>
+          {isRegistering ? "Iniciar Sesión" : "Registrar"}
+        </button>
+      </p>
+    </section>
+  );
 }
-
-
-
-
-

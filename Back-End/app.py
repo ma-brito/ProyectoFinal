@@ -42,7 +42,7 @@ def get_current_user():
     }) 
 
 @cross_origin
-@app.route('/registrar', methods=["POST"])
+@app.route('/registrar', methods=["GET", "POST"])
 def registrar():
     email = request.json["email"]
     password = request.json["password"]
