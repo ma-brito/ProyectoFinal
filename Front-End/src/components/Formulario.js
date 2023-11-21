@@ -10,7 +10,7 @@ export function Formulario({ setUser }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (email === "" || contraseña === "" || nombre === "") {
+    if (email === "" || contraseña === "" ) {
       setError("Por favor, completa todos los campos.");
       return;
     }
