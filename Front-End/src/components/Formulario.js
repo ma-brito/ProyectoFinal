@@ -4,6 +4,7 @@ import axios from "axios";
 export function Formulario({ setUser }) {
   const [nombre, setNombre] = useState("");
   const [contraseña, setContraseña] = useState("");
+  const [permiso, setPermiso] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -18,11 +19,12 @@ export function Formulario({ setUser }) {
       const response = await axios.post("http://localhost:5000/login", {
         email: nombre, // Envía el nombre como el email
         password: contraseña,
+        permiso : permiso,
       });
 
       if (response.status === 200) {
         console.log("Usuario logueado");
-        setUser(nombre);
+        setUser(nombre, permiso);
       }
     } catch (error) {
       if (error.response.status === 401) {

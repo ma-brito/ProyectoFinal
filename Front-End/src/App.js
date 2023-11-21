@@ -1,5 +1,6 @@
 import {Formulario} from "./components/Formulario";
 import {Home} from "./components/Home";
+import {HomeSuperadmin} from "./components/HomeSuperadmin";
 import {useState} from "react";
 import './App.css';
 import Logo from "../src/images/logo.jpeg";
@@ -31,7 +32,11 @@ function  App(){
                 !user.length > 0
 
                     ?<Formulario setUser={setUser}></Formulario>
-                    :<Home user={user} setUser={setUser}></Home>
+                    : (
+                        user.permiso === 0
+                          ? <Home user={user} setUser={setUser}></Home>
+                          : <HomeSuperadmin user={user} setUser={setUser}></HomeSuperadmin>
+                      )
             }
 
 

@@ -25,24 +25,6 @@ db.init_app(app)
 def main():
     return redirect(url_for('login'))
 
-@cross_origin
-@app.route('/registrar', methods=["POST"])
-def registrar():
-    email = request.json["email"]
-    password = request.json["password"]
-    nombre = request.json["nombre"]
-
-    if get_user_by_email(email) != []:
-        return jsonify({"error": "El correo ingresado ya está en uso."})
-    else:
-        usuario = Usuario(email = email, nombre = nombre, password = password) 
-        db.session.add(usuario)
-        db.session.commit()
-
-        return jsonify({
-            "email": usuario.email,
-            "password": usuario.password
-        })
 
 @cross_origin
 @app.route("/@me")
@@ -59,6 +41,28 @@ def get_current_user():
         "password": user.password
     }) 
 
+@cross_origin
+@app.route('/registrar', methods=["POST"])
+def registrar():
+    email = request.json["email"]
+    password = request.json["password"]
+    permiso = request.json["permiso"]
+    nombre = request.json["nombre"]
+    print(email, password, permiso, nombre)
+
+    if get_user_by_email(email) != []:
+        return jsonify({"error": "El correo ingresado ya está en uso."}), 401
+    else:
+        usuario = Usuario(email = email, nombre = nombre, password = password, permiso = permiso) 
+        db.session.add(usuario)
+        db.session.commit()
+
+        return jsonify({
+            "nombre": usuario.nombre,
+            "email": usuario.email,
+            "password": usuario.password,
+            "permiso": usuario.permiso
+        })
 
 @cross_origin
 @app.route('/login', methods=['GET', 'POST'])
@@ -76,10 +80,12 @@ def login():
     session.clear()
     session['user']= user.nombre
     session['email']= user.email
+    session['permiso']= user.permiso
     session.modified = True
     return jsonify({
         "email": user.email,
-        "password": user.password
+        "password": user.password,
+        "permiso": user.permiso
     })
 
 @app.route('/index', methods=['GET', 'POST'])
