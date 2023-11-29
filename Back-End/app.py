@@ -83,6 +83,7 @@ def login():
     session['permiso']= user.permiso
     session.modified = True
     return jsonify({
+        "nombre": user.nombre,
         "email": user.email,
         "password": user.password,
         "permiso": user.permiso

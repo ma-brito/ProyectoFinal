@@ -1,4 +1,4 @@
-import {BrowserRouter, Link, Route} from 'react-router-dom';
+import {Routes, Link, Route} from 'react-router-dom';
 import {Home} from "../components/Home.js";
 
 import React from "react";
@@ -9,7 +9,7 @@ import {VistaTorneos} from "./VistaTorneos";
 export const Home1 = () => {
     return (
         <div>
-        <BrowserRouter>
+        <Routes>
             <Navigation />
             <Route Home1 element={<Home1 />} />
             <Route path='/home' element = {<Home1 />} />
@@ -18,7 +18,7 @@ export const Home1 = () => {
             <Route path='/vertorneos' elemnt = {<VistaTorneos />} />
 
 
-        </BrowserRouter>
+        </Routes>
 
 
 

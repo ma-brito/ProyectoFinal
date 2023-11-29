@@ -1,36 +1,32 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {Formulario} from "../components/Formulario";
+import {useNavigate} from "react-router-dom";
 
-export const Login = () => {
-    const [user, setUser]=useState(null)
+export const Login = ({ setUser }) => {
+    const [user, setUserLocal] = useState(null);
+    const navigate = useNavigate();
 
-    //asigno valor de usuario dentro logiado
-    const login =() => {
-        //peticiones hechas al back de validaciones
-
-        setUser({
-            id: 1,
-            name:"John"
-        })
-    }
-
-    //asignamos valor de usuario que sale
-    const logout = () =>setUser(null)
-    return (
-
-
-        <div>
-            <Formulario></Formulario>
-            {
-                user ? (
-                    <button onClick={logout}>Logout</button>
-                ): (
-                    <button onClick={login}>Login</button>
-                )
-
+    useEffect(() => {
+        if (user) {
+            switch(user.permiso) {
+                case 0:
+                    navigate('/home');
+                    break;
+                case 1:
+                    navigate('/homeAdmin');
+                    break;
+                case 3:
+                    navigate('/homeSuper');
+                    break;
+                default:
+                    navigate('/login');
             }
+        }
+    }, [user, navigate]);
 
-
+    return (
+        <div>
+            <Formulario setUser={setUserLocal}></Formulario>
         </div>
     )
 };
