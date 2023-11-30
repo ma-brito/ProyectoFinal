@@ -20,7 +20,6 @@ export function Formulario({ setUser }) {
     try {
       let response;
       if (isRegistering) {
-        // Lógica de registro
         response = await axios.post("http://localhost:5000/registrar", {
           email: email,
           nombre: nombre,
@@ -28,23 +27,21 @@ export function Formulario({ setUser }) {
           permiso: 0, // Todos los usuarios registrados tendrán permiso 0
         });
       } else {
-        // Lógica de inicio de sesión
         response = await axios.post("http://localhost:5000/login", {
           nombre: nombre,
           email: email,
           password: contraseña,
-          permiso: 0, // Puedes ajustar esto según la lógica de tu aplicación
+          permiso: 0, 
 
         });
       }
 
-      if (response && response.status === 200) {  // Verifica que response no sea undefined
+      if (response && response.status === 200) {  
         console.log(isRegistering ? "Usuario registrado" : "Usuario logueado");
-        //almacena en usuraiio con set User los datos del usuario
         setUser({
           email: email,
           nombre: nombre,
-          permiso: response.data.permiso, // Assuming the API returns the user's permission level
+          permiso: response.data.permiso,
         });
       }
     } catch (error) {

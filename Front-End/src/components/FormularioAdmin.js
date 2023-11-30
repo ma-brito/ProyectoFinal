@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export function FormularioAdmin({  }) {
+    const navigate = useNavigate();
     const [email, setEmail] = useState(""); 
     const [nombre, setNombre] = useState("");
     const [contraseña, setContraseña] = useState("");

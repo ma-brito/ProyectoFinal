@@ -8,6 +8,7 @@ export const Login = ({ setUser }) => {
 
     useEffect(() => {
         if (user) {
+            console.log(user);
             switch(user.permiso) {
                 case 0:
                     navigate('/home');
@@ -16,7 +17,7 @@ export const Login = ({ setUser }) => {
                     navigate('/homeAdmin');
                     break;
                 case 3:
-                    navigate('/homeSuper');
+                    navigate('/homeSuperadmin');
                     break;
                 default:
                     navigate('/login');

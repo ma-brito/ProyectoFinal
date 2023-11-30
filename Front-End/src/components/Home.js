@@ -5,8 +5,8 @@ export function Home({user, setUser}){
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        setUser(null); // This will clear the user state in the parent component
-        navigate('/login'); // This will redirect the user to the login page
+        setUser(null); 
+        navigate('/login'); 
     }
 
     return(
