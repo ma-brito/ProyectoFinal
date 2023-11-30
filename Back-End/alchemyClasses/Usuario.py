@@ -20,3 +20,12 @@ class Usuario(db.Model):
 
     def __str__(self):
         return f'idUsuario: {self.idUsuario}\nnombre: {self.nombre}\ncorreo: {self.email}'
+    
+    def serialize(self):
+        return {
+            'id': self.idUsuario,
+            'nombre': self.nombre,
+            'email': self.email,
+            'password': self.password,
+            'permiso': self.permiso
+        }

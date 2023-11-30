@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Route, useHistory} from "react-router-dom";
 import axios from "axios";
 
 export function Formulario({ setUser }) {
@@ -10,7 +11,7 @@ export function Formulario({ setUser }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (email === "" || contraseña === "" || nombre === "") {
+    if (email === "" || contraseña === "") {
       setError("Por favor, completa todos los campos.");
       return;
     }
@@ -19,7 +20,6 @@ export function Formulario({ setUser }) {
     try {
       let response;
       if (isRegistering) {
-        // Lógica de registro
         response = await axios.post("http://localhost:5000/registrar", {
           email: email,
           nombre: nombre,
@@ -27,22 +27,27 @@ export function Formulario({ setUser }) {
           permiso: 0, // Todos los usuarios registrados tendrán permiso 0
         });
       } else {
-        // Lógica de inicio de sesión
         response = await axios.post("http://localhost:5000/login", {
+          nombre: nombre,
           email: email,
           password: contraseña,
-          permiso: 0, // Puedes ajustar esto según la lógica de tu aplicación
+          permiso: 0, 
+
         });
       }
 
-      if (response && response.status === 200) {  // Verifica que response no sea undefined
+      if (response && response.status === 200) {  
         console.log(isRegistering ? "Usuario registrado" : "Usuario logueado");
-        setUser(email, 0); // Asigna permiso 0 directamente
+        setUser({
+          email: email,
+          nombre: nombre,
+          permiso: response.data.permiso,
+        });
       }
     } catch (error) {
       if (error.response && error.response.status) {
         if (error.response.status === 401) {
-          setError(isRegistering ? "Usuario no registrado" : "Correo o contraseña incorrectos");
+          setError(isRegistering ? "Usuario ya registrado" : "Correo o contraseña incorrectos");
         } else if (error.response.status === 402) {
           setError("Contraseña incorrecta");
         } else {
