@@ -1,11 +1,41 @@
 
-.logo {
-    display: block;
-    width: 200px;
-    height: auto;
-    margin: 0 auto 20px auto;
+.login1 {
+  width: 1366px;
+  height: 768px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  justify-content: center;
+  align-items: center;
 }
 
+
+.box {
+  width: 300px;
+  height: 300px;
+}
+
+img {
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+}
+body{
+  font-family: Chakra_petch;
+  background-image: url('../imges/fondoh.jpg');
+  background-repeat: no-repeat;
+  color: #FFFFFF
+}
+
+.juega{
+  font-family: Nabla;
+  font-style: italic;
+  font-size: x-large;
+}
+
+/*
 .registrar {
     padding: 10px 20px;
     border-radius: 4px;
@@ -20,8 +50,9 @@
     background-color: rgb(160, 52, 52);
 }
 
+/*
 body {
-    font-family: Arial, sans-serif;
+    font-family: Nabla;
     background: linear-gradient(rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.7));
     margin: 0;
     padding: 0;
@@ -107,3 +138,5 @@ form button:hover {
   .nav li:hover {
     background-color: #777;
   }
+
+  */

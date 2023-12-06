@@ -2,7 +2,9 @@ import {useState, useEffect} from "react";
 import {Formulario} from "../components/Formulario";
 import {useNavigate} from "react-router-dom";
 import React from "react";
+import logo from '../imges/logo.jpeg'
 import "../css/Login.css"
+import TextAnimationJ from "../components/animations/TextAnimationJ";
 export const Login = ({ setUser }) => {
     const [user, setUserLocal] = useState(null);
     const navigate = useNavigate();
@@ -27,10 +29,23 @@ export const Login = ({ setUser }) => {
     }, [user, navigate]);
 
     return (
-        <div>
-
+        
+        <section className='login1'>
+            <div className="juega">
+                <TextAnimationJ></TextAnimationJ>
+            </div>
+            
+            <div className='box'>
+            <img src={logo}></img>
+            </div>
+            
+            <div>
             <Formulario setUser={setUserLocal}></Formulario>
-        </div>
+            </div>
+
+        </section>
+        
+    
     )
 };
 

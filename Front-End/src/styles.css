@@ -49,3 +49,14 @@ body {
 .nav li:hover {
   background-color: #777;
 }
+
+@font-face {
+  font-family: 'Nabla';
+  src: local('Nabla'), url(./fonts/Nabla/Nabla-Regular-VariableFont_EDPT\,EHLT.ttf) format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Chakra_Petch';
+  src: local('Chakra Petch'), url(./fonts/Chakra_Petch/ChakraPetch-SemiBold.ttf) format('truetype');
+}

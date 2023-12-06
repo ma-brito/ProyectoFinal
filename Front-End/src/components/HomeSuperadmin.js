@@ -1,7 +1,5 @@
 import React from 'react';
-import "./styles.css";
 import {FormularioAdmin} from './FormularioAdmin';
-import { HomeSuper } from '../pages/HomeSuper';
 import {Routes, Route, useNavigate, Outlet} from 'react-router-dom';
 import { useRoutes } from 'react-router-dom';
 import Navbar from "./Navbar"

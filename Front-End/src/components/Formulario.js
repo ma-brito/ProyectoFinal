@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import {Route, useHistory} from "react-router-dom";
 import axios from "axios";
+import '../css/Formulario.css'
+import TextAnimationI from "./animations/TextAnimationI";
+import TextAnimationR from "./animations/TextAnimationR";
+
+import  Button  from "@mui/material/Button";
+
+
+
 
 export function Formulario({ setUser }) {
   const [email, setEmail] = useState("");
@@ -66,7 +73,8 @@ export function Formulario({ setUser }) {
 
   return (
     <section>
-      <h1>{isRegistering ? "Registro" : "Inicio de Sesión"}</h1>
+      
+      <h1 className="titulo" >{isRegistering ? <TextAnimationR />  :  <TextAnimationI />  }</h1>
 
       <form className="formulario" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -98,7 +106,11 @@ export function Formulario({ setUser }) {
           />
         </div>
 
-        <button type="submit">{isRegistering ? "Registrar" : "Iniciar Sesión"}</button>
+        <Button type="submit" color='success' variant="contained">
+               {isRegistering ? "Registrar" : "Iniciar Sesión"}
+        </Button>
+
+        
       </form>
 
       <p>{error}</p>
@@ -107,9 +119,11 @@ export function Formulario({ setUser }) {
         {isRegistering
           ? "¿Ya registrado? "
           : "¿Aún no estás registrado? "}
-        <button type="button" onClick={toggleForm}>
+        
+        <Button type="button" onClick={toggleForm}>
           {isRegistering ? "Iniciar Sesión" : "Registrar"}
-        </button>
+        </Button>
+       
       </p>
     </section>
   );

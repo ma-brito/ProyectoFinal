@@ -1,0 +1,28 @@
+
+.formulario{
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    
+
+    padding: 10px 20px;
+    border-radius: 5%;
+    border: none;
+    color: #f8f8f8;
+    background-color: rgb(205, 103, 103);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    opacity: 90%;
+}
+
+
+
+.titulo{
+    font-size: xx-large;
+    font-family: Nabla;
+    text-align: center;
+
+}
