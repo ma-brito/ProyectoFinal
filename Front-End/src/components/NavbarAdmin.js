@@ -1,5 +1,7 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
 import React from "react"
+import { FaGamepad } from "react-icons/fa";
+
 export default function NavbarAdmin() {
   return (
     <nav className="nav">
@@ -11,6 +13,7 @@ export default function NavbarAdmin() {
         <CustomLink to="/homeAdmin/vertorneos">Ver Torneos</CustomLink>
       </ul>
     </nav>
+    
   )
 }
 
@@ -24,5 +27,7 @@ function CustomLink({ to, children, ...props }) {
         {children}
       </Link>
     </li>
+    
+    
   )
 }

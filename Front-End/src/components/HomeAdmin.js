@@ -4,7 +4,6 @@ import {FormularioAdmin} from './FormularioAdmin';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import NavbarAdmin from './NavbarAdmin';
-import { Formulario } from './Formulario';
 import { Home } from './Home';
 import { FormularioTorneo } from './FormularioTorneo';
 import { VerTorneos } from './VerTorneos';

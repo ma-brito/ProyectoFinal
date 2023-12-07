@@ -1,7 +1,7 @@
 //import usenavigate
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from "./logo.jpeg";
+import logo from '../imges/logo.jpeg'
 import { useContext } from 'react';
 import { UserContext } from '../App'; 
 export function Home(){

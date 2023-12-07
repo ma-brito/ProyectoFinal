@@ -21,7 +21,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.register_blueprint(json_controller)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://d:Developer123!@localhost:3306/ing_soft"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://ferfong:Developer123!@localhost:3306/ing_soft"
 app.config.from_mapping(
     SECRET_KEY='dev',
 )

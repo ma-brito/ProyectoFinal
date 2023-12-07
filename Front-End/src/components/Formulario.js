@@ -1,8 +1,12 @@
-import React, { useState, useContext } from "react";
-import {Route, useHistory} from "react-router-dom";
-import axios from "axios";
-import { UserContext } from '../App'; 
 
+import { UserContext } from '../App'; 
+import React, { useState } from "react";
+import axios from "axios";
+import '../css/Formulario.css'
+import TextAnimationI from "./animations/TextAnimationI";
+import TextAnimationR from "./animations/TextAnimationR";
+import { useContext } from 'react';
+import  Button  from "@mui/material/Button";
 export function Formulario() {
   const { setUser } = useContext(UserContext); // get the setUser function from UserContext
   const [email, setEmail] = useState("");
@@ -69,7 +73,8 @@ export function Formulario() {
 
   return (
     <section>
-      <h1>{isRegistering ? "Registro" : "Inicio de Sesión"}</h1>
+      
+      <h1 className="titulo" >{isRegistering ? <TextAnimationR />  :  <TextAnimationI />  }</h1>
 
       <form className="formulario" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -101,7 +106,11 @@ export function Formulario() {
           />
         </div>
 
-        <button type="submit">{isRegistering ? "Registrar" : "Iniciar Sesión"}</button>
+        <Button type="submit" color='success' variant="contained">
+               {isRegistering ? "Registrar" : "Iniciar Sesión"}
+        </Button>
+
+        
       </form>
 
       <p>{error}</p>
@@ -110,9 +119,11 @@ export function Formulario() {
         {isRegistering
           ? "¿Ya registrado? "
           : "¿Aún no estás registrado? "}
-        <button type="button" onClick={toggleForm}>
+        
+        <Button type="button" onClick={toggleForm}>
           {isRegistering ? "Iniciar Sesión" : "Registrar"}
-        </button>
+        </Button>
+       
       </p>
     </section>
   );
