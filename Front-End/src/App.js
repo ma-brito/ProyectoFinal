@@ -4,21 +4,34 @@ import {Login} from './pages/Login';
 import {Home} from './components/Home';
 import { HomeAdmin } from './components/HomeAdmin.js';
 import {HomeSuperadmin} from './components/HomeSuperadmin'; 
+import { HomeUsuario } from './components/HomeUsuario.js';
 
-function App(){
-    const [user, setUser] = useState(null); 
+// create a user context object
+export const UserContext = React.createContext();
 
-    return (
-            <Routes>
-                <Route path="/login" element={<Login/>} /> 
-                <Route path="/home/*" element={<Home user={user} setUser={setUser} />} />
-                <Route path="/homeAdmin/*" element={<HomeAdmin user={user} setUser={setUser} />} /> 
-                <Route path="/homeSuperadmin/*" element={<HomeSuperadmin user={user} setUser={setUser} />} />
+// create a custom provider component that takes the user state and setter as props
+const UserProvider = ({ user, setUser, children }) => {
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-                <Route path="/" element={<Login />} />
-            </Routes>
-    );
+// wrap your app component with the user provider component and pass the user state and setter as props
+export default function App() {
+  const [user, setUser] = useState(null);
+
+  return (
+    <UserProvider user={user} setUser={setUser}>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/home/*" element={<HomeUsuario />} />
+        <Route path="/homeAdmin/*" element={<HomeAdmin />} />
+        <Route path="/homeSuperadmin/*" element={<HomeSuperadmin />} />
+
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </UserProvider>
+  );
 }
-
-export default App;
-

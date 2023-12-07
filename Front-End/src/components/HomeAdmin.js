@@ -8,8 +8,11 @@ import { Formulario } from './Formulario';
 import { Home } from './Home';
 import { FormularioTorneo } from './FormularioTorneo';
 import { VerTorneos } from './VerTorneos';
+import { useContext } from 'react';
+import { UserContext } from '../App'; 
 
-export function HomeAdmin({user, setUser}) {
+export function HomeAdmin() {
+  const { user, setUser } = useContext(UserContext); // get the user context value
   const navigate = useNavigate();
 
   useEffect(() => {

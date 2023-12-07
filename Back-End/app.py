@@ -1,6 +1,6 @@
 import json
 import os
-
+from hashlib import sha256
 from alchemyClasses import db
 from alchemyClasses.Usuario import Usuario
 from CryptoUtils.CryptoUtils import validate, cipher, decipher
@@ -15,6 +15,8 @@ from flask import request
 from werkzeug.utils import secure_filename
 from alchemyClasses.Torneo import Torneo
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 app = Flask(__name__)
@@ -58,6 +60,25 @@ def register_tournament():
     else:
         return jsonify({"error": "La imagen no es válida. Por favor, sube una imagen en formato jpg."}), 400
 
+@cross_origin
+@app.route('/updateuser', methods=['PUT'])
+def update_user():
+    id = request.json['idUsuario']
+    new_data = request.json['new_data']
+
+    user = Usuario.query.filter_by(idUsuario=id).first()
+    
+    if 'nombre' in new_data:
+        user.nombre = new_data['nombre']
+    if 'email' in new_data:
+        user.email = new_data['email']
+    if 'password' in new_data:
+        user.password = new_data['password']
+
+    db.session.commit()
+
+    return jsonify({"success": "User updated successfully."}), 200
+
 
 @cross_origin
 @app.route('/torneos', methods=['GET'])
@@ -85,6 +106,7 @@ def edit_admin():
     db.session.commit()
 
     return jsonify({"success": "Admin updated successfully."}), 200
+
 @cross_origin
 @app.route('/torneoedit', methods=['PUT'])
 def update_torneo():
@@ -124,6 +146,21 @@ def get_current_user():
         "email": user.email,
         "password": user.password
     }) 
+
+
+@cross_origin
+@app.route('/updatepassword', methods=['PUT'])
+def update_password():
+    data = request.get_json()
+    id = data['idUsuario']
+    password = data['currentPassword']
+    nueva_password = data['newPassword']
+    user = Usuario.query.filter_by(idUsuario=id).first()
+    if not validate(password, user.password):
+        return jsonify({"error": "Current password is incorrect"}), 400
+    user.password = sha256(cipher(nueva_password)).hexdigest()
+    db.session.commit()
+    return jsonify({"success": "Password updated successfully."}), 200
 
 @cross_origin
 @app.route('/registrar', methods=["GET", "POST"])
@@ -167,6 +204,7 @@ def login():
     session['permiso']= user.permiso
     session.modified = True
     return jsonify({
+        "idUsuario": user.idUsuario,
         "nombre": user.nombre,
         "email": user.email,
         "password": user.password,

@@ -2,8 +2,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from "./logo.jpeg";
-export function Home({user, setUser}){
-
+import { useContext } from 'react';
+import { UserContext } from '../App'; 
+export function Home(){
+    const { user, setUser } = useContext(UserContext); 
+    console.log(user);
     const navigate = useNavigate();
 
     const handleLogout = () => {

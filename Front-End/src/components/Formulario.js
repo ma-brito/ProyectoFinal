@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {Route, useHistory} from "react-router-dom";
 import axios from "axios";
+import { UserContext } from '../App'; 
 
-export function Formulario({ setUser }) {
+export function Formulario() {
+  const { setUser } = useContext(UserContext); // get the setUser function from UserContext
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
   const [contraseña, setContraseña] = useState("");
@@ -39,8 +41,9 @@ export function Formulario({ setUser }) {
       if (response && response.status === 200) {  
         console.log(isRegistering ? "Usuario registrado" : "Usuario logueado");
         setUser({
-          email: email,
-          nombre: nombre,
+          idUsuario : response.data.idUsuario,
+          email: response.data.email,
+          nombre: response.data.nombre,
           permiso: response.data.permiso,
         });
       }
