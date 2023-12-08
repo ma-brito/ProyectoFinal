@@ -80,7 +80,7 @@ export function Formulario() {
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
-            type="text"
+            type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />

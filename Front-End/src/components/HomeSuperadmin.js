@@ -10,7 +10,7 @@ import { useContext } from 'react';
 import { UserContext } from '../App'; 
 
 export function HomeSuperadmin() {
-  const { user, setUser } = useContext(UserContext); // get the user context value
+  const { user, setUser } = useContext(UserContext); 
   const navigate = useNavigate();
 
   useEffect(() => {

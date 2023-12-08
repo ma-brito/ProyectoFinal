@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root'); // This line is important for accessibility purposes
 
 export const VerAdmins = () => {
     const [admins, setAdmins] = useState([]);
@@ -78,24 +81,33 @@ export const VerAdmins = () => {
                     })}
                 </tbody>
             </table>
-            {isEditing && (
-                <form onSubmit={updateAdmin}>
+            <Modal 
+                isOpen={isEditing} 
+                onRequestClose={() => setIsEditing(false)}
+                overlayClassName="modal-overlay"
+                className="modal-content"
+                >
+                <h2>Editar Admin</h2>
+                {adminToEdit && (
+                    <form onSubmit={updateAdmin} className="modal-form">
                     <label>
                         Nombre:
-                        <input type="text" name="nombre" value={adminToEdit.nombre} onChange={handleInputChange} />
+                        <input type="text" name="nombre" value={adminToEdit.nombre} onChange={handleInputChange} className="modal-input" />
                     </label>
                     <label>
                         Correo:
-                        <input type="text" name="email" value={adminToEdit.email} onChange={handleInputChange} />
+                        <input type="text" name="email" value={adminToEdit.email} onChange={handleInputChange} className="modal-input" />
                     </label>
                     <label>
                         Contraseña:
-                        <input type="password" name="password" value={adminToEdit.password} onChange={handleInputChange} />
+                        <input type="password" name="password" value={adminToEdit.password} onChange={handleInputChange} className="modal-input" />
                     </label>
-                    <button type="submit">Actualizar</button>
-                    <button onClick={() => setIsEditing(false)}>Cancelar</button>
-                </form>
-            )}
-        </div>
-    );
+                    <button type="submit" className="modal-button">Actualizar</button>
+                    </form>
+                )}
+                <button onClick={() => setIsEditing(false)} className="modal-button">Cancelar</button>
+                </Modal>
+
+    </div>
+  );
 };

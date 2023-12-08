@@ -37,6 +37,10 @@ export const VerTorneos = () => {
     };
 
     const handleInputChange = (event) => {
+        let value = event.target.value;
+        if (event.target.type === 'date') {
+          value = new Date(value).toISOString().split('T')[0];
+        }
         setTorneoToEdit({
             ...torneoToEdit,
             [event.target.name]: event.target.value

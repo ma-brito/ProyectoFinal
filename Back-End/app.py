@@ -112,13 +112,17 @@ def delete_torneo():
 @cross_origin
 @app.route('/adminedit', methods=['PUT'])
 def edit_admin():
+
     id = request.json['id']
     new_data = request.json['new_data']
-
+    print(new_data)
     admin = Usuario.query.filter_by(idUsuario=id).first()
     
     for key, value in new_data.items():
-        setattr(admin, key, value)
+        if key == 'password':
+            admin.password = sha256(cipher(value)).hexdigest()
+        else:
+            setattr(admin, key, value)
     db.session.commit()
 
     return jsonify({"success": "Admin updated successfully."}), 200
@@ -129,8 +133,8 @@ def update_torneo():
     id = request.json['id']
     new_data = request.json['new_data']
     torneo = Torneo.query.filter_by(idTorneo=id).first()
-    fechaInicio = datetime.strptime(new_data['fechaInicio'], '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d')
-    fechaFin = datetime.strptime(new_data['fechaFin'], '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d')
+    fechaInicio = datetime.strptime(new_data['fechaInicio'], '%Y-%m-%d').strftime('%Y-%m-%d')
+    fechaFin = datetime.strptime(new_data['fechaFin'], '%Y-%m-%d').strftime('%Y-%m-%d')
 
     torneo.nombre = new_data['nombre']
     torneo.juego = new_data['juego']
@@ -244,9 +248,9 @@ def logout():
 @cross_origin
 @app.route('/admins', methods=['GET'])
 def get_admins():
-    # Fetch all admins from the database
-    admins = Usuario.query.all()
+    admins = Usuario.query.filter_by(permiso=1).all()
     return jsonify([admin.serialize() for admin in admins]), 200
+
 
 @cross_origin
 @app.route('/admins', methods=['POST', 'GET'])
