@@ -16,12 +16,13 @@ from werkzeug.utils import secure_filename
 from alchemyClasses.Torneo import Torneo
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from alchemyClasses.Registro import Registro
 
 
 
 app = Flask(__name__)
 app.register_blueprint(json_controller)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://ferfong:Developer123!@localhost:3306/ing_soft"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://d:Developer123!@localhost:3306/ing_soft"
 app.config.from_mapping(
     SECRET_KEY='dev',
 )
@@ -60,6 +61,21 @@ def register_tournament():
     else:
         return jsonify({"error": "La imagen no es válida. Por favor, sube una imagen en formato jpg."}), 400
 
+@app.route('/registrartorneo', methods=['POST'])
+def register():
+    print(request.json)
+    idUsuario = request.json['idUsuario']
+    idTorneo = request.json['idTorneo']
+
+    registro = Registro.query.filter_by(idUsuario=idUsuario, idTorneo=idTorneo).first()
+    if registro:
+        return jsonify({"error": "El usuario ya está registrado en este torneo"}), 400
+
+    nuevo_registro = Registro(idUsuario=idUsuario, idTorneo=idTorneo)
+    db.session.add(nuevo_registro)
+    db.session.commit()
+
+    return jsonify({"success": "Usuario registrado al torneo"}), 200
 @cross_origin
 @app.route('/updateuser', methods=['PUT'])
 def update_user():

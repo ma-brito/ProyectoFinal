@@ -3,12 +3,12 @@ import React from "react"
 export default function NavbarUsuario() {
   return (
     <nav className="nav">
-      <Link to="/home" className="site-title">
+      <Link to="/homeuser" className="site-title">
         GameChallengerNet
       </Link>
       <ul>
-        <CustomLink to="/home/verperfil">Ver Perfil</CustomLink>
-        <CustomLink to="/home/registrarsetorneos">Registrarse a Torneos</CustomLink>
+        <CustomLink to="/homeuser/verperfil">Ver Perfil</CustomLink>
+        <CustomLink to="/homeuser/registrarsetorneos">Registrarse a Torneos</CustomLink>
       </ul>
     </nav>
   )

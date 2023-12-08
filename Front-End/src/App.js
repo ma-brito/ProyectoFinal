@@ -5,6 +5,8 @@ import {Home} from './components/Home';
 import { HomeAdmin } from './components/HomeAdmin.js';
 import {HomeSuperadmin} from './components/HomeSuperadmin'; 
 import { HomeUsuario } from './components/HomeUsuario.js';
+import { useEffect } from 'react';
+
 
 // create a user context object
 export const UserContext = React.createContext();
@@ -20,13 +22,17 @@ const UserProvider = ({ user, setUser, children }) => {
 
 // wrap your app component with the user provider component and pass the user state and setter as props
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   return (
     <UserProvider user={user} setUser={setUser}>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/home/*" element={<HomeUsuario />} />
+        <Route path="/homeuser/*" element={<HomeUsuario />} />
         <Route path="/homeAdmin/*" element={<HomeAdmin />} />
         <Route path="/homeSuperadmin/*" element={<HomeSuperadmin />} />
 

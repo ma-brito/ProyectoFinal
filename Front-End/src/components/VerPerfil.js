@@ -1,4 +1,4 @@
-// VerPerfil.js
+
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../App'; 
@@ -30,6 +30,7 @@ export function VerPerfil() {
         idUsuario: user.idUsuario,
         new_data: { nombre: newName }
       });
+      
       if (response.status === 200) {
         console.log("User name updated");
         setUser({ ...user, nombre: newName });

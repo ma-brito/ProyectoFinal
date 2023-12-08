@@ -1,5 +1,4 @@
 import React from 'react';
-import "./styles.css";
 import {FormularioAdmin} from './FormularioAdmin';
 import { HomeSuper } from '../pages/HomeSuper';
 import {Routes, Route, useNavigate, Outlet} from 'react-router-dom';
@@ -12,6 +11,8 @@ import { useContext } from 'react';
 import { UserContext } from '../App'; 
 import NavbarUsuario from './NavbarUsuario';
 import { VerPerfil } from './VerPerfil';
+import { RegistrarseTorneos } from './RegistrarseTorneos';
+import { HomeTorneos } from './HomeTorneos';
 export function HomeUsuario() {
   const { user, setUser } = useContext(UserContext); 
   const navigate = useNavigate();
@@ -27,9 +28,9 @@ export function HomeUsuario() {
       <NavbarUsuario />
       <div className="container">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomeTorneos />} />
           <Route path="/verperfil" element={<VerPerfil/>} />
-          <Route path="/registrarsetorneos" element={<VerAdmins/>} />
+          <Route path="/registrarsetorneos" element={<RegistrarseTorneos/>} />
         </Routes>
       </div>
     </>
