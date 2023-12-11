@@ -1,3 +1,4 @@
+import '../css/HomeTorneos.css'
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../imges/logo.jpeg'
@@ -34,18 +35,18 @@ export function HomeTorneos(){
         fetchTorneos();
       }, []);
 
-    return(
+return(
         <div>
-            <h1>Bienvenido</h1>
-            <h2>{user && user.nombre}</h2>
-            <h3>Torneos actuales</h3>
-            {torneos.map((torneo) => (
-                <div key={torneo.idTorneo}>
-                    <h2>{torneo.nombre}</h2>
-                    <p>{torneo.juego} - {torneo.consola}</p>
-                </div>
-            ))}
-            <button onClick={handleLogout}>Cerrar sesion</button>
+            <h1>Bienvenido {user && user.nombre}</h1>
+            <h2>Torneos actuales</h2>
+            <div className="torneos">
+                {torneos.map((torneo) => (
+                    <div key={torneo.idTorneo} className="torneo">
+                        <h2>{torneo.nombre}</h2>
+                        <p>{torneo.juego} - {torneo.consola}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

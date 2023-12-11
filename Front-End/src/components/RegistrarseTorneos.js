@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from '../App'; 
-
+import "../css/RegistrarseTorneos.css";
 export function RegistrarseTorneos() {
   const { user, setUser } = useContext(UserContext);
   const [torneos, setTorneos] = useState([]);
@@ -36,7 +36,7 @@ export function RegistrarseTorneos() {
       if (response.status === 200) {
         console.log("Usuario registrado al torneo");
         setMensaje("Usuario registrado al torneo");
-        setTimeout(() => setMensaje(""), 5000); // Limpiar el mensaje después de 5 segundos
+        setTimeout(() => setMensaje(""), 5000);
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -72,16 +72,20 @@ export function RegistrarseTorneos() {
   return (
     <section>
       <h1>Registrar a Torneo</h1>
-
       {torneos.map((torneo) => (
-        <div key={torneo.idTorneo}>
-          <img src={torneo.imagen} alt={torneo.nombre} />
-          <h2>{torneo.nombre}</h2>
-          <p>{torneo.juego} - {torneo.consola}</p>
-          <button onClick={() => handleDetails(torneo)}>Ver detalles</button>
-          <button onClick={() => handleConfirm(torneo)}>Registrarse</button>
+        <div className="tournament-container" key={torneo.idTorneo}>
+          <div className="tournament-content">
+            <img src={`http://localhost:5000/images/${torneo.imagen}`} alt="Tournament" />
+            <div className="tournament-buttons">
+              <button onClick={() => handleDetails(torneo)}>Ver detalles</button>
+              <button onClick={() => handleConfirm(torneo)}>Registrarse</button>
+            </div>
+          </div>
         </div>
       ))}
+
+
+
 
       <p>{mensaje}</p>
       <p>{error}</p>

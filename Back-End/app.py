@@ -17,7 +17,7 @@ from alchemyClasses.Torneo import Torneo
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from alchemyClasses.Registro import Registro
-
+from flask import send_from_directory
 
 
 app = Flask(__name__)
@@ -37,6 +37,50 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/images/<filename>')
+def send_image(filename):
+    return send_from_directory('images', filename)
+import re
+
+@app.route('/updateuser', methods=['PUT'])
+def update_user():
+    id = request.json['idUsuario']
+    new_data = request.json['new_data']
+
+    user = Usuario.query.filter_by(idUsuario=id).first()
+
+    if 'nombre' in new_data:
+        user.nombre = new_data['nombre']
+    if 'email' in new_data:
+        email = new_data['email']
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            return jsonify({"error": "Invalid email format"}), 400
+        user.email = email
+    if 'password' in new_data:
+        user.password = new_data['password']
+
+    db.session.commit()
+
+    return jsonify({"success": "User updated successfully."}), 200
+
+@app.route('/updateprofilepic', methods=['PUT'])
+def update_profile_pic():
+  idUsuario = request.form['idUsuario']
+  imagen = request.files['imagen']
+
+  if imagen and allowed_file(imagen.filename):
+    filename = secure_filename(imagen.filename)
+    imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    user.profilePicture = filename
+    db.session.commit()
+
+    return jsonify({"success": "Imagen de perfil actualizada exitosamente."}), 200
+  else:
+    return jsonify({"error": "La imagen no es válida. Por favor, sube una imagen en formato jpg."}), 400
+
 @cross_origin
 @app.route('/torneos', methods=['POST'])
 def register_tournament():
@@ -61,6 +105,25 @@ def register_tournament():
     else:
         return jsonify({"error": "La imagen no es válida. Por favor, sube una imagen en formato jpg."}), 400
 
+@cross_origin
+@app.route('/userdata', methods=['GET', 'POST'])
+def get_user_data():
+    idUsuario = request.args.get('idUsuario')
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    print(user)
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    if request.method == 'POST':
+        print('delete')
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"success": "User eliminado correctamente."}), 200
+    
+    return jsonify({
+        "profilePicture": user.profilePicture,
+    }), 200
+
 @app.route('/registrartorneo', methods=['POST'])
 def register():
     print(request.json)
@@ -76,24 +139,20 @@ def register():
     db.session.commit()
 
     return jsonify({"success": "Usuario registrado al torneo"}), 200
+
 @cross_origin
-@app.route('/updateuser', methods=['PUT'])
-def update_user():
-    id = request.json['idUsuario']
-    new_data = request.json['new_data']
+@app.route('/usuarios', methods=['POST'])
+def delete_user():
+    idUsuario = request.args.get('idUsuario')
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
 
-    user = Usuario.query.filter_by(idUsuario=id).first()
-    
-    if 'nombre' in new_data:
-        user.nombre = new_data['nombre']
-    if 'email' in new_data:
-        user.email = new_data['email']
-    if 'password' in new_data:
-        user.password = new_data['password']
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
 
+    db.session.delete(user)
     db.session.commit()
 
-    return jsonify({"success": "User updated successfully."}), 200
+    return jsonify({"success": "User eliminado correctamente."}), 200
 
 
 @cross_origin
@@ -103,9 +162,18 @@ def get_torneos():
     return jsonify([torneo.serialize() for torneo in torneos])
 
 @cross_origin
+@app.route('/usuariosdel', methods=['POST'])
+def delete_usuario():
+    id = request.json['idUsuario']
+    Usuario.query.filter_by(idUsuario=id).delete()
+    db.session.commit()
+    return jsonify({"success": "Torneo eliminado exitosamente."}), 200
+
+@cross_origin
 @app.route('/torneosdel', methods=['POST'])
 def delete_torneo():
     id = request.json['id']
+    print("id:",id)
     Torneo.query.filter_by(idTorneo=id).delete()
     db.session.commit()
     return jsonify({"success": "Torneo eliminado exitosamente."}), 200
@@ -194,15 +262,17 @@ def registrar():
     if get_user_by_email(email) != []:
         return jsonify({"error": "El correo ingresado ya está en uso."}), 401
     else:
-        usuario = Usuario(email = email, nombre = nombre, password = password, permiso = permiso) 
-        db.session.add(usuario)
+        user = Usuario(email = email, nombre = nombre, password = password, permiso = permiso) 
+        db.session.add(user)
         db.session.commit()
 
         return jsonify({
-            "nombre": usuario.nombre,
-            "email": usuario.email,
-            "password": usuario.password,
-            "permiso": usuario.permiso
+            "idUsuario": user.idUsuario,
+            "nombre": user.nombre,
+            "email": user.email,
+            "password": user.password,
+            "permiso": user.permiso,
+            "profilePicture": user.profilePicture
         })
 
 @cross_origin
@@ -228,7 +298,8 @@ def login():
         "nombre": user.nombre,
         "email": user.email,
         "password": user.password,
-        "permiso": user.permiso
+        "permiso": user.permiso,
+        "profilePicture": user.profilePicture
     })
 
 @app.route('/index', methods=['GET', 'POST'])

@@ -1,6 +1,17 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
-import React from "react"
+import React, { useContext } from "react"
+import { UserContext } from '../App'; 
+import { useNavigate } from 'react-router-dom';
+
 export default function NavbarUsuario() {
+  const { user, setUser } = useContext(UserContext); 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUser(null); 
+    navigate('/login'); 
+  }
+
   return (
     <nav className="nav">
       <Link to="/homeuser" className="site-title">
@@ -9,6 +20,7 @@ export default function NavbarUsuario() {
       <ul>
         <CustomLink to="/homeuser/verperfil">Ver Perfil</CustomLink>
         <CustomLink to="/homeuser/registrarsetorneos">Registrarse a Torneos</CustomLink>
+        <CustomLink to="/login" onClick={handleLogout}>Cerrar Sesión</CustomLink>
       </ul>
     </nav>
   )

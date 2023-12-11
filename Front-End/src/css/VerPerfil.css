@@ -1,0 +1,45 @@
+.profile-container {
+    display: flex;
+    justify-content: space-around; /* Distributes space evenly between the children */
+  }
+  
+  .profile-pic {
+    width: 30%;
+    display: flex;
+    justify-content: center; /* Centers the image horizontally */
+    align-items: center; /* Centers the image vertically */
+  }
+  
+  .profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Stacks .profile-info's children vertically */
+    align-items: center; /* Centers .profile-info's children horizontally */
+  }
+  
+  .profile-info-box {
+    border: 1px solid #ff0303;
+    padding: 20px;
+    background-color: #FFB6C1; /* Light pink background */
+    width: 30%; /* Takes up the full width of .profile-info */
+    text-align: center; /* Centers the text horizontally */
+  }
+  
+  button {
+    background-color: #913a3a;
+    color: white; /* White text */
+    padding: 15px 32px; /* Padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* No underline */
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s; /* Transition effect */
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: white; /* White background */
+    color: black; /* Black text */
+  }
+  

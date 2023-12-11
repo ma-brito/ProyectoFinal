@@ -15,7 +15,7 @@ export function HomeSuperadmin() {
 
   useEffect(() => {
     if (!user || user.permiso !== 3) {
-        console.log(user)
+      navigate('/login');
     }
   }, [user, navigate]);
 

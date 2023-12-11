@@ -18,8 +18,8 @@ export function HomeUsuario() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || user.permiso !== 3) {
-        console.log(user)
+    if (!user ) {
+      navigate('/login');
     }
   }, [user, navigate]);
 

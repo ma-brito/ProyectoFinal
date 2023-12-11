@@ -16,7 +16,7 @@ export function HomeAdmin() {
 
   useEffect(() => {
       if (!user || user.permiso !== 1) {
-          console.log(user)
+        navigate('/login');
       }
   }, [user, navigate]);
 

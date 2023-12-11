@@ -11,6 +11,7 @@ class Usuario(db.Model):
     email = Column(String(500), unique=True)
     password = Column(String(64))
     permiso = Column(Integer)
+    profilePicture= Column(String(200))
 
     def __init__(self, nombre, email, password,permiso):
         self.nombre = nombre

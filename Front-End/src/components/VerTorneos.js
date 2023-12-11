@@ -13,9 +13,13 @@ export const VerTorneos = () => {
 
     const deleteTorneo = async (email) => {
         console.log(email);
-        await axios.post('http://localhost:5000/torneosdel', { 
-            id: email
-        });
+        try {
+            await axios.post('http://localhost:5000/torneosdel', { 
+                id: email
+            });
+        } catch (error) {
+            alert("El torneo que intentas eliminar tiene usuarios registrados.");
+        };
         getTorneos();
     };
 
@@ -78,7 +82,7 @@ export const VerTorneos = () => {
                                 <td>{torneo.numParticipantes}</td>
                                 <td>{torneo.fechaInicio}</td>
                                 <td>{torneo.fechaFin}</td>
-                                <td><img src={torneo.imagen} alt="Imagen del torneo" /></td>
+                                <td><img src={`http://localhost:5000/images/${torneo.imagen}`} alt="Imagen del torneo" /></td>
                                 <td>
                                     <button onClick={() => editTorneo(torneo)}>Editar</button>
                                 </td>

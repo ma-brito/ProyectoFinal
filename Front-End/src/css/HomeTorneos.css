@@ -1,0 +1,21 @@
+.torneos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .torneo {
+    background-color: rgb(177, 101, 101); /* Cambia esto al color rojo que estás utilizando */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 200px; /* Ajusta esto según tus necesidades */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Esto añade un efecto de sombra */
+    text-align: center;
+  }
+  
+  .torneo:hover {
+    transform: scale(1.05); /* Esto hace que el torneo se agrande un poco cuando el cursor está sobre él */
+    transition: transform .2s; /* Animación suave */
+  }
+  

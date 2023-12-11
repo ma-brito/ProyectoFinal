@@ -39,6 +39,7 @@ export function Formulario() {
           password: contraseña,
           permiso: 0, 
 
+
         });
       }
 
@@ -49,6 +50,7 @@ export function Formulario() {
           email: response.data.email,
           nombre: response.data.nombre,
           permiso: response.data.permiso,
+          profilePicture: response.data.profilePicture,
         });
       }
     } catch (error) {
